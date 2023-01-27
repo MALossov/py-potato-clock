@@ -15,20 +15,20 @@ import potatodb
 import potatohis
 import potatosets
 import potatoclock
+from rich.console import Console
 
-
-defult_confirm = False
-default_time = 25
-default_intervals = 2
-default_aim = "Study"
-default_color = "spring_green1"
-default_bg = "deep_sky_blue2"
-default_pulse = "aquamarine3"
-default_queryG = None
-default_queryT = None
+console = Console()
 
 
 def cli():
+    set = potatosets.Settings()
+    if os.path.exists("pttsets.yaml"):
+        set.load()
+    else:
+        console.print("[bold red]Warning!: pttsets.yaml does not exist!!Use DEFAULT SETTINGS!")
+        console.print(
+            "[bold dark_blue]Please run [italic cyan]potato settings -i[/] to init the settings"
+        )
     parser = argparse.ArgumentParser(description="Set the clock on a potato router")
     # 参数部分
     parser.add_argument(
@@ -38,16 +38,16 @@ def cli():
         help="Set the time of the clock",
         dest="time",
         required=False,
-        default=default_time,
+        default=set.default_time,
     )
     parser.add_argument(
         "-n",
         "--notify",
-        type=int,
+        type=float,
         help="Notifice intervals of the clock",
         dest="Intervals",
         required=False,
-        default=default_intervals,
+        default=set.default_intervals,
     )
     parser.add_argument(
         "-a" "--aim",
@@ -55,7 +55,7 @@ def cli():
         help="Set the aim of the clock",
         dest="aim",
         required=False,
-        default=default_aim,
+        default=set.default_aim,
     )
     parser.add_argument(
         "-c",
@@ -64,7 +64,7 @@ def cli():
         help="Set colors of progress",
         dest="color",
         required=False,
-        default=default_color,
+        default=set.default_color,
     )
     parser.add_argument(
         "-b",
@@ -73,7 +73,7 @@ def cli():
         help="Set colors of progress' backend",
         dest="back",
         required=False,
-        default=default_bg,
+        default=set.default_bg,
     )
     parser.add_argument(
         "-p",
@@ -82,15 +82,15 @@ def cli():
         help="Set colors of progress' pulse",
         dest="pulse",
         required=False,
-        default=default_pulse,
+        default=set.default_pulse,
     )
     parser.add_argument(
         "-y",
         "--confirm",
         dest="start",
         action="store_true",
-        help="Confirm the autostart of bar",
-        default=defult_confirm,
+        help="Confirm the autostart啊 of bar",
+        default=set.default_confirm,
     )
     # 子命令部分
     subparsers = parser.add_subparsers(help="sub-commands")
@@ -104,7 +104,7 @@ def cli():
         help="Query the history of potato times",
         dest="query",
         type=str,
-        default=default_queryT,
+        default=set.default_queryT,
         required=False,
     )
     history_parse.add_argument(
@@ -121,7 +121,7 @@ def cli():
         nargs="+",
         type=str,
         required=False,
-        default=default_queryG,
+        default=set.default_queryG,
         help="Query the history of potato times by groups",
     )
     #
@@ -129,10 +129,7 @@ def cli():
     history_parse.set_defaults(handle=history)
 
     setting_parse = subparsers.add_parser(
-        "settings", help="Change the settings of default potato clocks"
-    )
-    setting_parse.add_argument(
-        "-l", "--load", help="Load the settings", action="store_true"
+        "set", help="Change the settings of default potato clocks"
     )
     setting_parse.add_argument(
         "-s", "--show", help="Show the settings", action="store_true"
@@ -142,6 +139,9 @@ def cli():
     )
     setting_parse.add_argument(
         "-i", "--init", help="Init the settings", action="store_true"
+    )
+    setting_parse.add_argument(
+        "-e","--edit", help="Edit the settings", action="store_true"
     )
     setting_parse.set_defaults(handle=settings)
 

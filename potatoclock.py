@@ -39,7 +39,7 @@ def potato_clock(args):
         "[bold blue]Notify intervals:", args.Intervals, "minutes", end="\t|\t"
     )
     console.print("[bold red]potato clock:", args.time, "minutes", end="\t|\n")
-    console.rule("[bold blue]Potato Aim:[navy_blue]" + args.aim, style="bold cyan")
+    console.rule("[bold blue]Potato Aim:[cyan2]" + args.aim, style="bold cyan")
 
     # 使用定时器
     # 每隔0.25秒刷新一次进度条
@@ -78,12 +78,12 @@ def potato_clock(args):
         progress.start_task(tomatoClkTask)
         for i in range(args.time * 60):
             progress.advance(tomatoClkTask)
-            time.sleep(0.01)
+            time.sleep(1)
             if i % (args.Intervals * 60) == 0:
                 # 构建通知字符串
                 notify_str = """notify-send \"potatoClock!\" \"You passed one Interval for {} minutes!\nNow your time 
-                left is: {} minutes\"""".format(
-                    args.Intervals, int(args.time - i / 60)
+                left is: {:.1f} minutes\"""".format(
+                    args.Intervals, float(args.time - i / 60)
                 )
                 # 使用notify-send发送通知
                 os.system(notify_str)
