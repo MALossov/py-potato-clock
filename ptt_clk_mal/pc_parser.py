@@ -90,7 +90,7 @@ def cli():
         "--confirm",
         dest="start",
         action="store_true",
-        help="Confirm the autostart啊 of bar",
+        help="Confirm the autostart of bar",
         default=sets.default_confirm,
     )
     # 子命令部分

@@ -19,7 +19,7 @@ def sets(args):
         )
         console.print(
             "[bold blue2]Please run ",
-            "[italic cyan]<CMD> set -i",
+            "[italic cyan]pttClk set -i",
             " to init the settings",
         )
         exit(1)
@@ -33,7 +33,7 @@ def sets(args):
     else:
         console.print("Error: Invalid settings command!!", style="bold red")
         console.print(
-            "[bold blue]Your settings command must be: [italic cyan], -s, -c, -i"
+            "[bold blue]Your options must be: [italic cyan], -s, -c, -i, -e, -h"
         )
         exit(1)
 
@@ -47,7 +47,7 @@ def init_settings():
         )
         console.print(
             "[bold blue]Please run ",
-            "[italic cyan]<CMD> set -c",
+            "[italic cyan]pttClk set -c",
             "[bold blue] to clear the settings",
         )
         exit(1)
@@ -87,7 +87,7 @@ def clear_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]<CMD> set -i[/] to init the settings"
+            "[Bold blue]Please run [Italic cyan]pttClk set -i[/] to init the settings"
         )
         exit(1)
 
@@ -104,7 +104,7 @@ def show_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]<CMD> set -i[/] to init the settings"
+            "[Bold blue]Please run [Italic cyan]pttClk set -i[/] to init the settings"
         )
         exit(1)
 
@@ -156,7 +156,7 @@ def load_settings():
             style="bold red",
         )
         console.print(
-            "[bold blue]Please run [italic cyan]<CMD> set -i[/] to init the settings"
+            "[bold blue]Please run [italic cyan]pttClk set -i[/] to init the settings"
         )
         exit(1)
 

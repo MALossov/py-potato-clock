@@ -117,7 +117,7 @@ def potato_history(args):
     else:
         console.print(
             "[cyan3 Italic underline]type: ",
-            "[bold cyan]<CMD> his -h [/bold cyan]",
+            "[bold cyan]pttClk his -h [/bold cyan]",
             "[cyan3 Italic underline]for help",
         )
 
