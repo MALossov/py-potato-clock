@@ -661,6 +661,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/potato
-/potatoclock.db
-/pttsets.yaml
+**/potatoclock.db
+**/pttsets.yaml
+!/ptt_clk_mal/static/pttsets.yaml
+!/dist/

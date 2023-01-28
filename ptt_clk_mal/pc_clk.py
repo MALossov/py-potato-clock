@@ -11,7 +11,7 @@ from rich.console import Console
 import os
 import sys
 import time
-import potatodb
+import ptt_clk_mal.pc_dao as pc_dao
 import datetime
 
 console = Console()
@@ -38,7 +38,7 @@ def potato_clock(args):
     console.print(
         "[bold blue]Notify intervals:", args.Intervals, "minutes", end="\t|\t"
     )
-    console.print("[bold red]potato clock:", args.time, "minutes", end="\t|\n")
+    console.print("[bold red]pttClk clock:", args.time, "minutes", end="\t|\n")
     console.rule("[bold blue]Potato Aim:[cyan2]" + args.aim, style="bold cyan")
 
     # 使用定时器
@@ -65,15 +65,15 @@ def potato_clock(args):
         if args.start:
             pass
         else:
-            print("Press [italic magenta]Y/n [/]to start/absorb:", end="")
-            if input() == "Y" or "y" or "":
+            try:
+                input("Press [italic magenta]ANY-KEY/Ctrl+C [/]to start/absorb:")
                 console.rule(
                     "\r[magenta]Tasking:{}\t|\t[cyan]Total:{}\t".format(
                         args.aim, args.time
                     )
                 )
-            else:
-                print("[bold red]PotatoClock absorbed!")
+            except KeyboardInterrupt:
+                console.print("[bold red]You have absorbed the pttClk clock!")
                 sys.exit(0)
         progress.start_task(tomatoClkTask)
         for i in range(args.time * 60):
@@ -81,24 +81,27 @@ def potato_clock(args):
             time.sleep(1)
             if i % (args.Intervals * 60) == 0:
                 # 构建通知字符串
-                notify_str = """notify-send \"potatoClock!\" \"You passed one Interval for {} minutes!\nNow your time 
+                notify_str = """notify-send \"potatoClock!\" \"You passed one Interval for {} minutes!\r\n Now your time 
                 left is: {:.1f} minutes\"""".format(
                     args.Intervals, float(args.time - i / 60)
                 )
                 # 使用notify-send发送通知
                 os.system(notify_str)
-    console.rule("[bold green]potato clock is over!")
+    console.rule("[bold green]pttClk clock is over!")
     console.print(
         "[italic blue]Cool!!",
         "\t[yellow]You did a :",
         args.time,
-        "[yellow]minutes [bold red]potato CLOCK!!\n",
+        "[yellow]minutes [bold red]pttClk CLOCK!!\n",
         end="",
     )
+    notify_str = """notify-send \"potatoClock!\" \"You have finished your pttClk clock!\r\n Good job!\""""
+    os.system(notify_str)
     # 将本次的番茄钟信息存入数据库
+    # noinspection PyBroadException
     try:
-        potatodb.create_table()
-        potatodb.insert_potato(args.time, args.aim, datetime.datetime.now())
+        pc_dao.create_table()
+        pc_dao.insert_potato(args.time, args.aim, datetime.datetime.now())
         console.print("[bold green italic]Time well remember Everything~")
-    except Exception as e:
+    except Exception:
         console.print("[bold red]Failed to insert data into database!")

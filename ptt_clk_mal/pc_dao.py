@@ -6,12 +6,11 @@ LastEditTime: 2023-01-27 16:57:35
 LastEditors: MALossov
 Reference: 
 """
-import datetime
-import random
 import sqlite3
 from typing import Any
+import os
 
-db_name = "potatoclock.db"
+db_name = os.path.dirname(os.path.abspath(__file__))+"potatoclock.db"
 
 
 def create_table():
@@ -21,7 +20,7 @@ def create_table():
     c = conn.cursor()
     # 执行sql语句,创建一个表
     c.execute(
-        """CREATE TABLE IF NOT EXISTS potato
+        """CREATE TABLE IF NOT EXISTS pttClk
                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
                     date TEXT,
                     aim TEXT,
@@ -39,7 +38,7 @@ def insert_potato(pttperiod, pttaim, pttdate):
     # 创建一个游标
     c = conn.cursor()
     c.execute(
-        """INSERT INTO potato (period,aim,date)
+        """INSERT INTO pttClk (period,aim,date)
                     VALUES (?,?,?)""",
         (pttperiod, pttaim, pttdate),
     )
@@ -68,13 +67,13 @@ def query_factory(sql: str) -> object:
 
 
 def query_potato():
-    return query_factory("""SELECT * FROM potato ORDER BY date DESC""")
+    return query_factory("""SELECT * FROM pttClk ORDER BY date DESC""")
 
 
 def query_by_groups(groups: list):
     # merge list into SQL DML string in 'or', which column is 'aim'
     return query_factory(
-        "SELECT * FROM potato WHERE aim = '"
+        "SELECT * FROM pttClk WHERE aim = '"
         + "' or aim = '".join(groups)
         + "' ORDER BY date DESC"
     )
@@ -82,7 +81,7 @@ def query_by_groups(groups: list):
 
 def query_last_xdays(x: int):
     return query_factory(
-        """SELECT * FROM potato WHERE date > date('now','-{} day') ORDER BY date DESC""".format(
+        """SELECT * FROM pttClk WHERE date > date('now','-{} day') ORDER BY date DESC""".format(
             x
         )
     )
@@ -90,7 +89,7 @@ def query_last_xdays(x: int):
 
 def query_xdays_and_groups(x: int, groups: list):
     return query_factory(
-        """SELECT * FROM potato WHERE date > date('now','-{} day') AND (aim = '{}""".format(
+        """SELECT * FROM pttClk WHERE date > date('now','-{} day') AND (aim = '{}""".format(
             x, "' or aim = '".join(groups)
         )
         + "') ORDER BY date DESC"
@@ -101,7 +100,7 @@ def clean_table():
     conn = sqlite3.connect(db_name)
     # 创建一个游标
     c = conn.cursor()
-    c.execute("""DELETE FROM potato WHERE TRUE""")
+    c.execute("""DELETE FROM pttClk WHERE TRUE""")
     # 提交事务
     conn.commit()
     # 关闭连接

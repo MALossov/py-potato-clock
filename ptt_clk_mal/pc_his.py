@@ -6,10 +6,11 @@ LastEditTime: 2023-01-28 01:47:31
 LastEditors: MALossov
 Reference: 
 """
-import potatodb
+import ptt_clk_mal.pc_dao as pc_dao
 import rich
 from rich.console import Console
 import datetime
+import rich.table
 
 console = Console()
 
@@ -43,7 +44,7 @@ def prettierPrintTable(data: list, days: int, hobby: list):
         "[bold italic wheat4]Common Statistics", style="bold orange2", align="left"
     )
     console.print(
-        "Experienced {} times potatos in total!".format(len(data)),
+        "Experienced {} times potatoes in total!".format(len(data)),
         style="bold hot_pink3",
         end="\t|\t",
     )
@@ -98,7 +99,7 @@ def prettierPrintTable(data: list, days: int, hobby: list):
 
 def potato_history(args):
     if args.clear:
-        potatodb.clean_table()
+        pc_dao.clean_table()
         console.rule(
             "[bold italic chartreuse2]History cleared!Enjoy Nice New Days!",
             style="bold green",
@@ -112,7 +113,7 @@ def potato_history(args):
     else:
         console.print(
             "[cyan3 Italic underline]type: ",
-            "[bold cyan]potato his -h [/bold cyan]",
+            "[bold cyan]<CMD> his -h [/bold cyan]",
             "[cyan3 Italic underline]for help",
         )
 
@@ -120,17 +121,17 @@ def potato_history(args):
 # noinspection PyTypeChecker
 def queryByArgs(dayCount):
     if dayCount == "today":
-        data, dayCount = potatodb.query_last_xdays(1), 1
+        data, dayCount = pc_dao.query_last_xdays(1), 1
     elif dayCount == "week":
-        data, dayCount = potatodb.query_last_xdays(7), 7
+        data, dayCount = pc_dao.query_last_xdays(7), 7
     elif dayCount == "month":
-        data, dayCount = potatodb.query_last_xdays(30), 30
+        data, dayCount = pc_dao.query_last_xdays(30), 30
     elif dayCount == "all":
-        data = potatodb.query_potato()
+        data = pc_dao.query_potato()
         dayCount = len(data)
     else:
         try:
-            data = potatodb.query_last_xdays(int(dayCount))
+            data = pc_dao.query_last_xdays(int(dayCount))
             dayCount = len(data)
         except ValueError:
             console.print("Error: Invalid query string!!\n", style="bold red")
@@ -143,7 +144,7 @@ def queryByArgs(dayCount):
 
 def queryGroupsAndArgs(query, group):
     try:
-        data = potatodb.query_xdays_and_groups(int(query), group)
+        data = pc_dao.query_xdays_and_groups(int(query), group)
         prettierPrintTable(data, int(query), group)
     except ValueError:
         console.print("Error: Invalid query string!!\n", style="bold red")
@@ -155,7 +156,7 @@ def queryGroupsAndArgs(query, group):
 
 def queryByGroup(group):
     try:
-        data = potatodb.query_by_groups(group)
+        data = pc_dao.query_by_groups(group)
         # noinspection PyTypeChecker
         prettierPrintTable(data, None, group)
     except ValueError:

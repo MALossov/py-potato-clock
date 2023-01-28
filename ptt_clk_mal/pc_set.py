@@ -1,28 +1,25 @@
-import time
-
 import yaml
 from rich.console import Console
 import os
-import sys
 
 console = Console()
+confYaml = os.path.dirname(os.path.abspath(__file__)) + "/static/pttsets.yaml"
 
 
 def sets(args):
     if args.init:
         init_settings()
         exit(0)
-    # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
+    if os.path.exists("%s" % confYaml):
         pass
     else:
         console.print(
-            "Error: pttsets.yaml does not exist!!",
+            "Error: %s does not exist!!" % confYaml,
             style="bold red",
         )
         console.print(
             "[bold blue2]Please run ",
-            "[italic cyan]potato settings -i",
+            "[italic cyan]<CMD> set -i",
             " to init the settings",
         )
         exit(1)
@@ -30,7 +27,7 @@ def sets(args):
     if args.show:
         show_settings()
     elif args.edit:
-        edit_settings(args)
+        edit_settings()
     elif args.clear:
         clear_settings()
     else:
@@ -43,19 +40,19 @@ def sets(args):
 
 def init_settings():
     # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
+    if os.path.exists("%s" % confYaml):
         console.print(
             "Error: pttsets.yaml already exists!!",
             style="bold red",
         )
         console.print(
             "[bold blue]Please run ",
-            "[italic cyan]potato settings -c",
+            "[italic cyan]<CMD> set -c",
             "[bold blue] to clear the settings",
         )
         exit(1)
     else:
-        with open("pttsets.yaml", "w") as f:
+        with open("%s" % confYaml, "w") as f:
             yaml.dump(
                 {
                     "TomatoClocks": {
@@ -81,8 +78,8 @@ def init_settings():
 
 def clear_settings():
     # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
-        os.remove("pttsets.yaml")
+    if os.path.exists("%s" % confYaml):
+        os.remove("%s" % confYaml)
         console.print("Settings file cleared successfully!!", style="bold green")
     else:
         console.print(
@@ -90,15 +87,15 @@ def clear_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]potato settings -i[/] to init the settings"
+            "[Bold blue]Please run [Italic cyan]<CMD> set -i[/] to init the settings"
         )
         exit(1)
 
 
 def show_settings():
     # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
-        with open("pttsets.yaml", "r") as f:
+    if os.path.exists("%s" % confYaml):
+        with open("%s" % confYaml, "r") as f:
             data = yaml.safe_load(f)
         console.print(data, style="white on navy_blue")
     else:
@@ -107,15 +104,15 @@ def show_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]potato settings -i[/] to init the settings"
+            "[Bold blue]Please run [Italic cyan]<CMD> set -i[/] to init the settings"
         )
         exit(1)
 
 
-def edit_settings(args):
+def edit_settings():
     # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
-        with open("pttsets.yaml", "r") as f:
+    if os.path.exists("%s" % confYaml):
+        with open("%s" % confYaml, "r") as f:
             data = yaml.safe_load(f)
         for item in data:
             console.rule(
@@ -140,7 +137,7 @@ def edit_settings(args):
                     pass
                 else:
                     data[item][key] = new_value
-        with open("pttsets.yaml", "w") as f:
+        with open("%s" % confYaml, "w") as f:
             yaml.dump(data, f)
         console.rule(
             "Settings file edited successfully!!", style="bold green", align="left"
@@ -149,8 +146,8 @@ def edit_settings(args):
 
 def load_settings():
     # Check if pttsets.yaml exists
-    if os.path.exists("pttsets.yaml"):
-        with open("pttsets.yaml", "r") as f:
+    if os.path.exists("%s" % confYaml):
+        with open("%s" % confYaml, "r") as f:
             data = yaml.safe_load(f)
         return data
     else:
@@ -159,7 +156,7 @@ def load_settings():
             style="bold red",
         )
         console.print(
-            "[bold blue]Please run [italic cyan]potato settings -i[/] to init the settings"
+            "[bold blue]Please run [italic cyan]<CMD> set -i[/] to init the settings"
         )
         exit(1)
 
