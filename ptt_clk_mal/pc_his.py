@@ -16,6 +16,9 @@ console = Console()
 
 
 def prettierPrintTable(data: list, days: int, hobby: list):
+    if not data:
+        console.print("[red bold underline]No data in the database!!!")
+        return
     # use rich to print a table
     table = rich.table.Table(
         show_header=True,
@@ -108,7 +111,7 @@ def potato_history(args):
     elif args.query and args.groups:
         queryGroupsAndArgs(args.query, args.groups)
     elif args.query:
-        queryByArgs(args.query)
+        queryByDays(args.query)
     elif args.groups:
         queryByGroup(args.groups)
     else:
@@ -120,7 +123,7 @@ def potato_history(args):
 
 
 # noinspection PyTypeChecker
-def queryByArgs(dayCount):
+def queryByDays(dayCount):
     if dayCount == "today":
         data, dayCount = pc_dao.query_last_xdays(1), 1
     elif dayCount == "week":
@@ -137,7 +140,7 @@ def queryByArgs(dayCount):
         except ValueError:
             console.print("Error: Invalid query string!!\n", style="bold red")
             console.print(
-                "[Bold dark_blue]Your query must be: [Italic cyan]today, yesterday, week, month, all or a number"
+                "[bold dark_blue]Your query must be: [Italic cyan]today, yesterday, week, month, all or a number"
             )
             exit(1)
     prettierPrintTable(data, dayCount, None)
@@ -162,5 +165,5 @@ def queryByGroup(group):
         prettierPrintTable(data, None, group)
     except ValueError:
         console.print("Error: Invalid query string!!\n", style="bold red")
-        console.print("[Bold dark_blue]Your query must be: Right Names for {Group}")
+        console.print("[bold dark_blue]Your query must be: Right Names for {Group}")
         exit(1)

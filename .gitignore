@@ -663,6 +663,6 @@ cython_debug/
 
 **/potatoclock.db
 **/pttsets.yaml
-!/ptt_clk_mal/static/pttsets.yaml
-!/dist/
-!/ptt_clk_mal/static/pttsets.yaml
+/ptt_clk_mal/static/pttsets.yaml
+dist/*
+test/*

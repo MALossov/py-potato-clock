@@ -67,8 +67,8 @@ def init_settings():
                         "CompletedColor": "spring_green1",
                     },
                     "DefaultQuerySets": {
-                        "DefaultDays": 7,
-                        "DefaultQueryAim": "Study",
+                        "DefaultDays": None,
+                        "DefaultQueryAim": None,
                     },
                 },
                 f,
@@ -116,17 +116,17 @@ def edit_settings():
             data = yaml.safe_load(f)
         for item in data:
             console.rule(
-                "[italic pale_turquoise1]Editing:[/][bold blue]{}[/]?:".format(item),
+                "[italic pale_turquoise1]Editing: [/][bold blue]{}[/]:".format(item),
                 style="bold blue",
                 align="left",
             )
             for key in data[item]:
                 console.print(
-                    "[italic pale_turquoise1]Edit[/][bold blue]{}[/]?:".format(key),
+                    "[italic pale_turquoise1]Edit[/] [bold blue underline]{}[/] ?:".format(key),
                     end="|",
                 )
                 console.print(
-                    "[bold blue]Current value:[/][bold cyan]{}[/]".format(
+                    "[bold blue]Current value: [/][bold cyan underline]{}[/] ".format(
                         data[item][key]
                     ),
                     end="|",
@@ -184,3 +184,6 @@ class Settings:
         self.default_pulse = conf["ProgressColorSets"]["PulseColor"]
         self.default_queryG = conf["DefaultQuerySets"]["DefaultQueryAim"]
         self.default_queryT = conf["DefaultQuerySets"]["DefaultDays"]
+
+if __name__ == "__main__":
+    init_settings()

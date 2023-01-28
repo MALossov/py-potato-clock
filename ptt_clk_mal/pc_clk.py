@@ -6,6 +6,8 @@ LastEditTime: 2023-01-27 23:26:31
 LastEditors: MALossov
 Reference: 
 """
+import argparse
+
 import rich.progress
 from rich.console import Console
 import os
@@ -105,3 +107,16 @@ def potato_clock(args):
         console.print("[bold green italic]Time well remember Everything~")
     except Exception:
         console.print("[bold red]Failed to insert data into database!")
+
+
+if __name__ == "__main__":
+    test_args : argparse.Namespace = argparse.Namespace()
+    test_args.time = 2
+    test_args.aim = "test"
+    test_args.Intervals = 1
+    test_args.color = "green"
+    test_args.back = "blue"
+    test_args.pulse = "red"
+    test_args.start = True
+
+    potato_clock(test_args)
