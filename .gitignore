@@ -665,3 +665,4 @@ cython_debug/
 **/pttsets.yaml
 !/ptt_clk_mal/static/pttsets.yaml
 !/dist/
+!/ptt_clk_mal/static/pttsets.yaml

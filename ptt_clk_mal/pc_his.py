@@ -98,6 +98,7 @@ def prettierPrintTable(data: list, days: int, hobby: list):
 
 
 def potato_history(args):
+    pc_dao.create_table()
     if args.clear:
         pc_dao.clean_table()
         console.rule(

@@ -10,7 +10,7 @@ import sqlite3
 from typing import Any
 import os
 
-db_name = os.path.dirname(os.path.abspath(__file__))+"potatoclock.db"
+db_name = os.path.dirname(os.path.abspath(__file__))+"/static/potatoclock.db"
 
 
 def create_table():
@@ -108,4 +108,5 @@ def clean_table():
 
 
 if __name__ == "__main__":
+    create_table()
     print("Aborted!")
