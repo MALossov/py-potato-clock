@@ -667,3 +667,4 @@ cython_debug/
 dist/*
 test/*
 /test/test
+!/ptt_clk_mal/static/potatoclock.db

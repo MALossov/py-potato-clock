@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ptt-clk-mal"
-version = "0.1.1.4"
-description = "A small script help get your time used better"
+version = "0.1.1.5"
+description = "A small timer help make your time used better,inspired by tomatoclock."
 authors = ["MALossov <lshy1104@163.com>"]
 license = "MIT"
 readme = "README.md"
