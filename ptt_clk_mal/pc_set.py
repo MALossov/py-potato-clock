@@ -136,7 +136,17 @@ def edit_settings():
                 if new_value == "":
                     pass
                 else:
-                    data[item][key] = new_value
+                    if new_value == "true":
+                        data[item][key] = True
+                    elif new_value == "false":
+                        data[item][key] = False
+                    elif new_value == "null" or new_value == "none":
+                        data[item][key] = None
+                    else:
+                        try:
+                            data[item][key] = eval(new_value)
+                        except NameError:
+                            data[item][key] = new_value
         with open("%s" % confYaml, "w") as f:
             yaml.dump(data, f)
         console.rule(

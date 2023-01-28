@@ -666,3 +666,4 @@ cython_debug/
 /ptt_clk_mal/static/pttsets.yaml
 dist/*
 test/*
+/test/test
