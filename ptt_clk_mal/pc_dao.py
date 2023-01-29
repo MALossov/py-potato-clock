@@ -110,3 +110,35 @@ def clean_table():
 if __name__ == "__main__":
     create_table()
     clean_table()
+
+
+def backup():
+    create_table()
+    # Back up the dbfile to the backup folder
+    if not os.path.exists(os.path.dirname(os.path.abspath(__file__))+"/backup"):
+        os.mkdir(os.path.dirname(os.path.abspath(__file__))+"/backup")
+    os.system("cp "+db_name+" "+os.path.dirname(os.path.abspath(__file__))+"/backup/potatoclock.db")
+    return None
+
+
+def restore():
+    # read the dbfile from the backup folder
+    conn = sqlite3.connect(os.path.dirname(os.path.abspath(__file__))+"/backup/potatoclock.db")
+    c = conn.cursor()
+    c.execute("""SELECT * FROM pttClk""")
+    data = c.fetchall()
+    conn.close()
+    # write the dbfile to the current folder
+    conn = sqlite3.connect(db_name)
+    c = conn.cursor()
+    origianData = query_potato()
+    for row in data:
+        if row not in origianData:
+            c.execute(
+                """INSERT INTO pttClk (period,aim,date)
+                            VALUES (?,?,?)""",
+                (row[1], row[2], row[3]),
+            )
+    conn.commit()
+    conn.close()
+    return None

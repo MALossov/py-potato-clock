@@ -93,6 +93,20 @@ def cli():
         help="Confirm the autostart of bar",
         default=sets.default_confirm,
     )
+    parser.add_argument(
+        "--backup",
+        dest="backup",
+        action="store_true",
+        help="Backup the settings",
+        required=False,
+    )
+    parser.add_argument(
+        "--restore",
+        dest="restore",
+        action="store_true",
+        help="Restore the settings",
+        required=False,
+    )
     # 子命令部分
     subparsers = parser.add_subparsers(help="sub-commands")
 
@@ -125,7 +139,6 @@ def cli():
         default=sets.default_queryG,
         help="Query the history of pttClk times by groups",
     )
-    #
 
     history_parse.set_defaults(handle=history)
 

@@ -1,3 +1,5 @@
+import shutil
+
 import yaml
 from rich.console import Console
 import os
@@ -87,7 +89,7 @@ def clear_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]pttClk set -i[/] to init the settings"
+            "[bold blue]Please run [italic cyan]pttClk set -i[/] to init the settings"
         )
         exit(1)
 
@@ -104,7 +106,7 @@ def show_settings():
             style="bold red",
         )
         console.print(
-            "[Bold blue]Please run [Italic cyan]pttClk set -i[/] to init the settings"
+            "[bold blue]Please run [Italic cyan]pttClk set -i[/] to init the settings"
         )
         exit(1)
 
@@ -122,7 +124,9 @@ def edit_settings():
             )
             for key in data[item]:
                 console.print(
-                    "[italic pale_turquoise1]Edit[/] [bold blue underline]{}[/] ?:".format(key),
+                    "[italic pale_turquoise1]Edit[/] [bold blue underline]{}[/] ?:".format(
+                        key
+                    ),
                     end="|",
                 )
                 console.print(
@@ -195,5 +199,51 @@ class Settings:
         self.default_queryG = conf["DefaultQuerySets"]["DefaultQueryAim"]
         self.default_queryT = conf["DefaultQuerySets"]["DefaultDays"]
 
+
 if __name__ == "__main__":
     init_settings()
+
+
+def backup():
+    if not os.path.exists(os.path.dirname(os.path.abspath(__file__)) + "/backup"):
+        os.mkdir(os.path.dirname(os.path.abspath(__file__)) + "/backup")
+    if os.path.exists(
+        os.path.dirname(os.path.abspath(__file__)) + "/backup/pttsets.yaml"
+    ):
+        os.remove(os.path.dirname(os.path.abspath(__file__)) + "/backup/pttsets.yaml")
+    if os.path.exists(confYaml):
+        shutil.copyfile(
+            confYaml,
+            os.path.dirname(os.path.abspath(__file__)) + "/backup/pttsets.yaml",
+        )
+    else:
+        console.print(
+            "Error: pttsets.yaml does not exist!!\n",
+            style="bold red",
+        )
+        console.print(
+            "[bold blue]Please run [italic cyan]pttClk set -i[/] to init the settings"
+        )
+        exit(1)
+
+
+def restore():
+    if os.path.exists(
+        os.path.dirname(os.path.abspath(__file__)) + "/backup/pttsets.yaml"
+    ):
+        if os.path.exists(confYaml):
+            os.remove(confYaml)
+        shutil.copyfile(
+            os.path.dirname(os.path.abspath(__file__)) + "/backup/pttsets.yaml",
+            confYaml,
+        )
+    else:
+        console.print(
+            "Error: backed up pttsets.yaml does not exist!!\n",
+            style="bold red",
+        )
+        console.print(
+            "[bold blue]Please run [italic cyan]pttClk --backup[/] to init the settings"
+        )
+        exit(1)
+    return None

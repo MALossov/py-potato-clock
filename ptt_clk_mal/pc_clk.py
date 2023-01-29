@@ -14,12 +14,24 @@ import os
 import sys
 import time
 import ptt_clk_mal.pc_dao as pc_dao
+import ptt_clk_mal.pc_set as pc_set
 import datetime
 
 console = Console()
 
 
 def potato_clock(args):
+    if args.backup:
+        pc_dao.backup()
+        pc_set.backup()
+        console.rule("[bold red]Backup successfully!", style="bold red")
+        exit(0)
+    if args.restore:
+        pc_dao.restore()
+        pc_set.restore()
+        console.rule("[bold red]Restore successfully!", style="bold red")
+        exit(0)
+
     # 首先打印当前时间,预计结束的时间,定时的时间和提醒的间隔.
     # 所有时间用不同彩色的字体打印
     # 打印分行符之后打印进度条,进度条的颜色和字体颜色一致
@@ -97,7 +109,8 @@ def potato_clock(args):
         "[yellow]minutes [bold red]pttClk CLOCK!!\n",
         end="",
     )
-    notify_str = """notify-send \"potatoClock!\" \"You have finished your pttClk clock!\r\n Good job!\""""
+    for i in range(20):
+        notify_str = """notify-send \"potatoClock!\" \"You have finished your pttClk clock!\r\n Good job!\""""
     os.system(notify_str)
     # 将本次的番茄钟信息存入数据库
     # noinspection PyBroadException
