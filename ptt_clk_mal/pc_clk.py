@@ -111,7 +111,7 @@ def potato_clock(args):
     )
     for i in range(20):
         notify_str = """notify-send \"potatoClock!\" \"You have finished your pttClk clock!\r\n Good job!\""""
-    os.system(notify_str)
+        os.system(notify_str)
     # 将本次的番茄钟信息存入数据库
     # noinspection PyBroadException
     try:
