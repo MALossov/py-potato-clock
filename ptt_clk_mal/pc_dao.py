@@ -107,11 +107,6 @@ def clean_table():
     conn.close()
 
 
-if __name__ == "__main__":
-    create_table()
-    clean_table()
-
-
 def backup():
     create_table()
     # Back up the dbfile to the backup folder
@@ -137,8 +132,12 @@ def restore():
             c.execute(
                 """INSERT INTO pttClk (period,aim,date)
                             VALUES (?,?,?)""",
-                (row[1], row[2], row[3]),
+                (row[3], row[2], row[1]),
             )
     conn.commit()
     conn.close()
     return None
+
+if __name__ == "__main__":
+    create_table()
+    clean_table()
